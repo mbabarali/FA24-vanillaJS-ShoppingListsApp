@@ -1,0 +1,18 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#DC3545",
+    "activityBar.foreground": "#081309",
+    "activityBar.activeBackground": "#eef3ee",
+    "activityBar.inactiveForeground": "#0e0e88",
+
+    "statusBar.background": "#EF9FA7",
+    "statusBarItem.hoverForeground": "#DC3545",
+    "statusBar.foreground": "#081309"
+  },
+  "svg.preview.background": "transparent",
+  "editor.formatOnSave": true
+}
