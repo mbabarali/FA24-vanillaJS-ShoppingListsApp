@@ -501,7 +501,7 @@ console.log("==============================================");
     ); // e.currentTarget
     console.log("   parentElement", e.currentTarget.parentElement.nodeName); // e.currentTarget.parentElement
 
-    e.stopPropagation(); // Stop propagation thru current listenr on node
+    // e.stopPropagation(); // Stop propagation thru current listenr on node
     // e.stopImmediatePropagation(); // Stop propagation thru all other listenrs on same node (having more liseners to event)
   }
 
@@ -534,4 +534,4 @@ console.log("==============================================");
   }
 
   // --------------------------------------------------
-})(false);
+})(true);
