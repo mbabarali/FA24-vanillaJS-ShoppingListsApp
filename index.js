@@ -342,9 +342,12 @@ deleteBtnAll.forEach((item) => {
 // ==============================================================
 console.log("==============================================");
 function clickEventHandler(e) {
-  console.log("[LOG-CLICK]");
-  console.log("target", e.target.nodeName); // e.target
+  console.log("%c[LOG-CLICK]", "background-color: tomato");
+  console.log("%ctarget", "font-weight: bold", e.target.nodeName); // e.target
   console.log("   parentElement", e.target.parentElement.nodeName); // e.target.parentElement
+
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget.nodeName); // [Discussion Part-2]: What if click handler is also registered?
+  console.log("   parentElement", e.currentTarget.parentElement.nodeName); // [Discussion Part-2]: What if click handler is also registered?
 }
 
 // --------------------------------------------------
@@ -364,3 +367,15 @@ renderItem(createItem("Salt", "seek"), "seek");
 renderItem(createItem("Pepper", "seek"), "seek");
 renderItem(createItem("Potato", "mark"), "mark");
 renderItem(createItem("Tomato", "mark"), "mark");
+
+// --------------------------------------------------
+const listsOfAllCategories = document.getElementsByTagName("UL");
+
+for (let ul of listsOfAllCategories) {
+  console.log(ul);
+
+  ul.style = "background-color: black"; // [Discussion Part-1] Impact if the following handler is NOT registered?
+  ul.addEventListener("click", clickEventHandler); // [Discussion Part-2]: What if click handler is also registered?
+}
+
+// --------------------------------------------------
