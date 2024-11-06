@@ -357,7 +357,7 @@ const categoryComponents =
 for (let article of categoryComponents) {
   console.log(article);
 
-  article.addEventListener("click", clickEventHandler);
+  article.addEventListener("click", clickEventHandler, { capture: true });
 }
 
 // --------------------------------------------------
@@ -375,7 +375,7 @@ for (let ul of listsOfAllCategories) {
   console.log(ul);
 
   ul.style = "background-color: black"; // [Discussion Part-1] Impact if the following handler is NOT registered?
-  ul.addEventListener("click", clickEventHandler); // [Discussion Part-2]: What if click handler is also registered?
+  ul.addEventListener("click", clickEventHandler, { capture: true }); // [Discussion Part-2]: What if click handler is also registered?
 }
 
 // --------------------------------------------------
