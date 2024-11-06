@@ -12,20 +12,21 @@ function createItem(title, status = "seek") {
 
   // Configure nodes
   newItem.classList = "list-group-item";
-
+  shiftBtn.addEventListener("click", moveEventHandler);
+  deleteBtn.addEventListener("click", moveEventHandler);
   if (status == "mark") {
     shiftBtn.innerHTML = "&#8634;";
     shiftBtn.classList = "mx-1 seek-btn";
-    shiftBtn.addEventListener("click", shiftToSeekEventHandler);
+    // shiftBtn.addEventListener("click", shiftToSeekEventHandler);
   } else {
     shiftBtn.innerHTML = "&check;";
     shiftBtn.classList = "mx-1 mark-btn";
-    shiftBtn.addEventListener("click", shiftToMarkEventHandler);
+    // shiftBtn.addEventListener("click", shiftToMarkEventHandler);
   }
 
   deleteBtn.innerHTML = "&cross;";
   deleteBtn.classList = "mx-1 delete-btn";
-  deleteBtn.addEventListener("click", deleteEventHandler);
+  // deleteBtn.addEventListener("click", deleteEventHandler);
 
   console.log("shiftBtn", shiftBtn, "--> Type:", typeof shiftBtn);
   console.log("deleteBtn", deleteBtn, "--> Type:", typeof deleteBtn);
@@ -120,6 +121,87 @@ buttonsNewItem[1].addEventListener("click", addToMarkEventHandler);
 // Start: Register Event Handlers on Buttons in Items
 // ==============================================================
 console.log("==============================================");
+function moveEventHandler(e) {
+  console.log("[ITEM-MOVED]");
+  console.log("target", e.target);
+  console.log("parentElement", e.target.parentElement);
+
+  if (e.target.nodeName != "BUTTON") return true; // Button is not clicked.
+
+  let status;
+  for (let thisClass of e.target.classList) {
+    console.log("thisClass: ", thisClass, " ", typeof thisClass);
+
+    if (thisClass.endsWith("btn")) {
+      status = thisClass.split("-")[0];
+      console.log("status: ", status, " ", typeof status);
+      break;
+    }
+  }
+
+  if (status == "delete") {
+    // // Identify Item to delete
+    // const itemToDelete = e.target.parentElement;
+    // console.log("itemToDelete", itemToDelete, "--> Type:", typeof itemToDelete);
+
+    // Delete item
+    e.target.parentElement.remove();
+    return false;
+  }
+
+  // Identify item to move
+  const itemToMove = e.target.parentElement;
+
+  // Find destination list
+  const sourceListIdArray = e.target.parentElement.parentElement.id.split("-");
+  const destinationId = sourceListIdArray[0] + "-" + status + "-list";
+  const destinationList = document.querySelector(`#${destinationId}`);
+
+  console.log("itemToMove", itemToMove, "--> Type:", typeof itemToMove);
+  console.log(
+    "sourceListIdArray",
+    sourceListIdArray,
+    "--> Type:",
+    typeof sourceListIdArray
+  );
+
+  // Update item
+  let shiftBtn = itemToMove.querySelector("Button");
+
+  if (status == "mark") {
+    // shiftBtn.removeEventListener("click", shiftToMarkEventHandler);
+    // shiftBtn.addEventListener("click", shiftToSeekEventHandler);
+    shiftBtn.innerHTML = "&#8634;";
+    shiftBtn.classList = shiftBtn.classList.value.replace("mark", "seek");
+  } else {
+    // shiftBtn.removeEventListener("click", shiftToSeekEventHandler);
+    // shiftBtn.addEventListener("click", shiftToMarkEventHandler);
+    shiftBtn.innerHTML = "&check;";
+    shiftBtn.classList = shiftBtn.classList.value.replace("seek", "mark");
+  }
+
+  console.log("shiftBtn", shiftBtn, "--> Type:", typeof shiftBtn);
+
+  // Move item to destination list
+  destinationList.appendChild(itemToMove);
+
+  console.log(
+    "destinationId",
+    destinationId,
+    "--> Type:",
+    typeof destinationId
+  );
+  console.log(
+    "destinationList",
+    destinationList,
+    "--> Type:",
+    typeof destinationList
+  );
+
+  return true;
+}
+
+/*
 function shiftToMarkEventHandler(e) {
   console.log("[ITEM-MARKED]");
   console.log("target", e.target);
@@ -228,6 +310,7 @@ function deleteEventHandler(e) {
   // Delete item
   e.target.parentElement.remove();
 }
+*/
 
 /*
 // No fixed LIs, hence the following code snippet is commented.
