@@ -336,3 +336,31 @@ deleteBtnAll.forEach((item) => {
   item.addEventListener("click", deleteEventHandler);
 });
 */
+
+// ==============================================================
+// Start: Event bubbling
+// ==============================================================
+console.log("==============================================");
+function clickEventHandler(e) {
+  console.log("[LOG-CLICK]");
+  console.log("target", e.target.nodeName); // e.target
+  console.log("   parentElement", e.target.parentElement.nodeName); // e.target.parentElement
+}
+
+// --------------------------------------------------
+const categoryComponents =
+  document.getElementsByClassName("category-component");
+
+for (let article of categoryComponents) {
+  console.log(article);
+
+  article.addEventListener("click", clickEventHandler);
+}
+
+// --------------------------------------------------
+// Test Items
+renderItem(createItem("Suger", "seek"), "seek");
+renderItem(createItem("Salt", "seek"), "seek");
+renderItem(createItem("Pepper", "seek"), "seek");
+renderItem(createItem("Potato", "mark"), "mark");
+renderItem(createItem("Tomato", "mark"), "mark");
