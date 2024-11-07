@@ -73,6 +73,50 @@ const INIIAL_SHOPPING_LIST = [
 // console.log("INIIAL_SHOPPING_LIST", INIIAL_SHOPPING_LIST);
 
 // State must be 1) Accessible within all app 2) Singleton
+function AppState(initialState) {
+  const internalState = [...initialState]; // Private but NOT a singleton state
+
+  // this.state = [...internalState]; // Initilization only
+  this.state = function () {
+    return [...internalState];
+  };
+
+  this.updateState = function (id, updates, isNew = false) {
+    let item = {};
+
+    // New Item
+    if (isNew) {
+      id && (item.id = id);
+      item.title = updates?.title ?? "<EMPTY>";
+      item.status = updates?.status ?? "seek";
+      item.category = updates?.category ?? "grocery";
+      item.trash = updates?.trash ?? false;
+      item.createDate = new Date().toISOString().slice(0, 10);
+      internalState.push(item);
+      return;
+    }
+
+    // Existing Item
+    item = internalState.find((item) => {
+      console.log(item);
+      return item.id === id;
+    });
+
+    item || alert("[MISMATCH] Entry vs. item: Can not update item.");
+
+    updates.title && (item.title = updates.title);
+    updates.status && (item.status = updates.status);
+    updates.category && (item.category = updates.category);
+    updates.trash && (item.trash = updates.trash);
+
+    console.log(item);
+    console.log(internalState);
+
+    return;
+  };
+}
+
+/*
 const appState = (function (initialState) {
   const internalState = [...initialState];
 
@@ -116,7 +160,9 @@ const appState = (function (initialState) {
     },
   };
 })(INIIAL_SHOPPING_LIST);
+*/
 
+const appState = new AppState(INIIAL_SHOPPING_LIST);
 console.log("state", appState.state);
 
 /*
@@ -138,7 +184,7 @@ function updateState(id, updates, isNew = false) {
 
   // Existing Item
   item = shoppingListAppState.find((item) => {
-    // console.log(item);
+    console.log(item);
     return item.id === id;
   });
 
