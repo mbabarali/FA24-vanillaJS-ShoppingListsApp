@@ -24,7 +24,6 @@
           <!-- Add new item to desired list from here -->
         </article>
       </section>
-
       <section class="row text-bg-warning">
         <h1 class="col">Shopping Lists</h1>
         <article class="col-12 text-bg-primary">
@@ -33,33 +32,33 @@
             <div class="row">
               <ul class="col-6 list-group p-1 mb-1">
                 <!-- Item to seek list here -->
-                <li class="list-group-item">
+                <li class="list-group-item seek-item">
                   Suger
-                  <button class="mx-1">&check;</button>
-                  <button class="mx-1">&cross;</button>
+                  <button class="mx-1 mark-btn">&check;</button>
+                  <button class="mx-1 delete-btn">&cross;</button>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item seek-item">
                   Salt
-                  <button class="mx-1">&check;</button>
-                  <button class="mx-1">&cross;</button>
+                  <button class="mx-1 mark-btn">&check;</button>
+                  <button class="mx-1 delete-btn">&cross;</button>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item seek-item">
                   Pepper
-                  <button class="mx-1">&check;</button>
-                  <button class="mx-1">&cross;</button>
+                  <button class="mx-1 mark-btn">&check;</button>
+                  <button class="mx-1 delete-btn">&cross;</button>
                 </li>
               </ul>
               <ul class="col-6 list-group p-1 mb-1">
                 <!-- Item to mark list here -->
-                <li class="list-group-item">
+                <li class="list-group-item mark-item">
                   Potato
-                  <button class="mx-1">&#8634;</button>
-                  <button class="mx-1">&cross;</button>
+                  <button class="mx-1 seek-btn">&#8634;</button>
+                  <button class="mx-1 delete-btn">&cross;</button>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item mark-item">
                   Tomato
-                  <button class="mx-1">&#8634;</button>
-                  <button class="mx-1">&cross;</button>
+                  <button class="mx-1 seek-btn">&#8634;</button>
+                  <button class="mx-1 delete-btn">&cross;</button>
                 </li>
               </ul>
             </div>
@@ -79,5 +78,8 @@
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Project scripts -->
+    <script src="./index.js"></script>
   </body>
 </html>
