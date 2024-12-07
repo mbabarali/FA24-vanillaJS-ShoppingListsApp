@@ -1,4 +1,29 @@
 // ==============================================================
+// Start: Operations on an Item
+// ==============================================================
+function createItem(title, status = "seek") {
+  console.log("[createItem]", title, status);
+
+  // Create parent node and children nodes
+  const newItem = document.createElement("li");
+
+  // Configure nodes
+  newItem.innerText = title; // OR newItem.innerHTML = `<span>${title}</span>`;
+
+  // Attach children nodes to parent node
+
+  // Return item
+  return newItem;
+}
+
+function renderItem(item, status, category = "grocery") {
+  console.log("[renderItem]", category, status, item);
+
+  // Append content
+  document.querySelector(`#${category}-${status}-list`).appendChild(item);
+}
+
+// ==============================================================
 // Start: Register Event Handlers to Get New Item from User
 // ==============================================================
 console.log("==============================================");
@@ -6,6 +31,9 @@ const newComponent = document.getElementById("new-component");
 const titleNewItem = newComponent.children[0]; // OR newComponent.getElementsByTagName("input")[0];
 const buttonsNewItem = newComponent.getElementsByTagName("button");
 
+// console.log("newComponent", newComponent);
+// console.log("titleNewItem", titleNewItem);
+// console.log("buttonsNewItem", buttonsNewItem);
 // --------------------------------------------------
 function addToSeekEventHandler(e) {
   console.log("[NEW-ITEM-SEEK]");
@@ -13,7 +41,11 @@ function addToSeekEventHandler(e) {
   console.log("parentElement", e.target.parentElement);
 
   // Validate content
+
   // Create and render content
+  const newItem = createItem(titleNewItem.value, "seek");
+  renderItem(newItem, "seek");
+
   // Reset form-fields
 }
 
@@ -24,7 +56,11 @@ function addToMarkEventHandler(e) {
   console.log("parentElement", e.target.parentElement);
 
   // Validate content
+
   // Create and render content
+  const newItem = createItem(titleNewItem.value, "mark");
+  renderItem(newItem, "mark");
+
   // Reset form-fields
 }
 
