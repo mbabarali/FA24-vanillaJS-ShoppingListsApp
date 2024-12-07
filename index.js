@@ -206,6 +206,8 @@ function deleteEventHandler(e) {
   e.target.parentElement.remove();
 }
 
+/*
+// No fixed LIs, hence the following code snippet is commented.
 console.log("==============================================");
 const markBtnAll = document.querySelectorAll(".mark-btn");
 markBtnAll.forEach((item) => {
@@ -227,3 +229,4 @@ deleteBtnAll.forEach((item) => {
   console.log(item);
   item.addEventListener("click", deleteEventHandler);
 });
+*/
