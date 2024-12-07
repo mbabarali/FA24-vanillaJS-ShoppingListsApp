@@ -6,11 +6,32 @@ function createItem(title, status = "seek") {
 
   // Create parent node and children nodes
   const newItem = document.createElement("li");
+  const itemTitle = title;
+  const shiftBtn = document.createElement("Button");
+  const deleteBtn = document.createElement("Button");
 
   // Configure nodes
-  newItem.innerText = title; // OR newItem.innerHTML = `<span>${title}</span>`;
+  newItem.classList = "list-group-item";
+
+  if (status == "mark") {
+    shiftBtn.innerHTML = "&#8634;";
+    shiftBtn.classList = "mx-1 seek-btn";
+    shiftBtn.addEventListener("click", shiftToSeekEventHandler);
+  } else {
+    shiftBtn.innerHTML = "&check;";
+    shiftBtn.classList = "mx-1 mark-btn";
+    shiftBtn.addEventListener("click", shiftToMarkEventHandler);
+  }
+
+  deleteBtn.innerHTML = "&cross;";
+  deleteBtn.classList = "mx-1 delete-btn";
+  deleteBtn.addEventListener("click", deleteEventHandler);
+
+  console.log("shiftBtn", shiftBtn, "--> Type:", typeof shiftBtn);
+  console.log("deleteBtn", deleteBtn, "--> Type:", typeof deleteBtn);
 
   // Attach children nodes to parent node
+  newItem.append(itemTitle, shiftBtn, deleteBtn);
 
   // Return item
   return newItem;
@@ -41,12 +62,14 @@ function addToSeekEventHandler(e) {
   console.log("parentElement", e.target.parentElement);
 
   // Validate content
+  if (titleNewItem.value == "") return;
 
   // Create and render content
   const newItem = createItem(titleNewItem.value, "seek");
   renderItem(newItem, "seek");
 
   // Reset form-fields
+  titleNewItem.value = "";
 }
 
 // --------------------------------------------------
@@ -56,12 +79,14 @@ function addToMarkEventHandler(e) {
   console.log("parentElement", e.target.parentElement);
 
   // Validate content
+  if (titleNewItem.value == "") return;
 
   // Create and render content
   const newItem = createItem(titleNewItem.value, "mark");
   renderItem(newItem, "mark");
 
   // Reset form-fields
+  titleNewItem.value = "";
 }
 
 // --------------------------------------------------
