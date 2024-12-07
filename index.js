@@ -1,4 +1,38 @@
 // ==============================================================
+// Start: Register Event Handlers to Get New Item from User
+// ==============================================================
+console.log("==============================================");
+const newComponent = document.getElementById("new-component");
+const titleNewItem = newComponent.children[0]; // OR newComponent.getElementsByTagName("input")[0];
+const buttonsNewItem = newComponent.getElementsByTagName("button");
+
+// --------------------------------------------------
+function addToSeekEventHandler(e) {
+  console.log("[NEW-ITEM-SEEK]");
+  console.log("target", e.target);
+  console.log("parentElement", e.target.parentElement);
+
+  // Validate content
+  // Create and render content
+  // Reset form-fields
+}
+
+// --------------------------------------------------
+function addToMarkEventHandler(e) {
+  console.log("[NEW-ITEM-MARK]");
+  console.log("target", e.target);
+  console.log("parentElement", e.target.parentElement);
+
+  // Validate content
+  // Create and render content
+  // Reset form-fields
+}
+
+// --------------------------------------------------
+buttonsNewItem[0].addEventListener("click", addToSeekEventHandler);
+buttonsNewItem[1].addEventListener("click", addToMarkEventHandler);
+
+// ==============================================================
 // Start: Register Event Handlers on Buttons in Items
 // ==============================================================
 console.log("==============================================");
