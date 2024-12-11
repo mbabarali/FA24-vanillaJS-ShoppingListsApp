@@ -2,7 +2,7 @@
 "author": "Muhammad Babar Ali",
 "repository": {
   "type": "git",
-  "url": "git+https://github.com/mbabarali/FA24-vanillaJS-ShoppingListsApp.git.git"
+  "url": "git+https://github.com/mbabarali/FA24-vanillaJS-ShoppingListsApp.git"
 },
 "bugs": {
   "url": "https://github.com/mbabarali/FA24-vanillaJS-ShoppingListsApp.git/issues"
