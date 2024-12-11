@@ -221,7 +221,7 @@ function addEventHandler(status, e) {
 
   // Create and render content
   const newItem = createItem(titleNewItem.value, status);
-  renderItem(newItem, status);
+  renderItem(newItem, status, newComponent.children[1].value);
 
   // Reset form-fields
   titleNewItem.value = "";
@@ -511,7 +511,7 @@ console.log("==============================================");
     ); // e.currentTarget
     console.log("   parentElement", e.currentTarget.parentElement.nodeName); // e.currentTarget.parentElement
 
-    // e.stopPropagation(); // Stop propagation thru current listenr on node
+    e.stopPropagation(); // Stop propagation thru current listenr on node
     // e.stopImmediatePropagation(); // Stop propagation thru all other listenrs on same node (having more liseners to event)
   }
 
@@ -544,7 +544,7 @@ console.log("==============================================");
   }
 
   // --------------------------------------------------
-})(true);
+})(false);
 
 /*
 function clickEventHandler(e) {
