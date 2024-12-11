@@ -358,6 +358,9 @@ function clickEventHandler(e) {
 
   console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget.nodeName); // e.currentTarget
   console.log("   parentElement", e.currentTarget.parentElement.nodeName); // e.currentTarget.parentElement
+
+  e.stopPropagation(); // Stop propagation thru current listenr on node
+  // e.stopImmediatePropagation(); // Stop propagation thru all other listenrs on same node (having more liseners to event)
 }
 
 // --------------------------------------------------
