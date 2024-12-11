@@ -49,6 +49,38 @@ function dropEventHandler(e) {
   draggedComponent && e.currentTarget.appendChild(draggedComponent);
 }
 
+function dragEndEventHandler(e) {
+  console.log("%c[END-DRAG]", "background-color: black; color:white");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+}
+
+function dragEnterEventHandler(e) {
+  console.log("%c[ENTER-DRAG]", "background-color: lightgreen");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+}
+
+function dragLeaveEventHandler(e) {
+  console.log("%c[LEAVE-DRAG]", "background-color: pink");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+}
+
+function dragEventHandler(e) {
+  console.log("%c[DRAG]", "background-color: crimson");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+}
+
 // --------------------------------------------------
 // Configure drop acceptance on all "UL" elements
 (function configureDropAcceptance() {
@@ -57,8 +89,26 @@ function dropEventHandler(e) {
     console.log(dae);
 
     dae.style = "background-color: black";
+
+    // -- (1) Listening in CAPTURING Phase of event propagation - { capture: true }
+    // -- (2) Target Phase of event propagation
+    // dae.addEventListener("drop", dropEventHandler, true);
+    // dae.addEventListener("dragover", dragOverEventHandler, true);
+    // dae.addEventListener("dragstart", dragStartEventHandler, true);
+    // dae.addEventListener("dragend", dragEndEventHandler, true);
+    // dae.addEventListener("dragenter", dragEnterEventHandler, true);
+    // dae.addEventListener("dragleave", dragLeaveEventHandler, true);
+    // dae.addEventListener("drop", dropEventHandler, true);
+
+    // -- (2) Target Phase of event propagation
+    // -- (3) Listening in BUBBLING Phase of event propagation - { capture: false }
     dae.addEventListener("drop", dropEventHandler);
     dae.addEventListener("dragover", dragOverEventHandler); // [****]
+    // dae.addEventListener("dragstart", dragStartEventHandler);
+    // dae.addEventListener("dragend", dragEndEventHandler);
+    // dae.addEventListener("dragenter", dragEnterEventHandler);
+    // dae.addEventListener("dragleave", dragLeaveEventHandler);
+    // dae.addEventListener("drop", dropEventHandler);
   }
 })();
 
@@ -85,7 +135,24 @@ function createItem(title, status = "seek") {
   // Configure nodes
   newItem.classList = "list-group-item";
   newItem.setAttribute("draggable", true);
+
+  // -- (1) Listening in CAPTURING Phase of event propagation - { capture: true }
+  // -- (2) Target Phase of event propagation
+  // newItem.addEventListener("dragstart", dragStartEventHandler, true);
+  // newItem.addEventListener("dragend", dragEndEventHandler, true);
+  // newItem.addEventListener("dragenter", dragEnterEventHandler, true);
+  // newItem.addEventListener("dragleave", dragLeaveEventHandler, true);
+  // newItem.addEventListener("drop", dropEventHandler, true);
+  // newItem.addEventListener("dragover", dragOverEventHandler, true);
+
+  // -- (2) Target Phase of event propagation
+  // -- (3) Listening in BUBBLING Phase of event propagation - { capture: false }
   newItem.addEventListener("dragstart", dragStartEventHandler);
+  // newItem.addEventListener("dragend", dragEndEventHandler);
+  // newItem.addEventListener("dragenter", dragEnterEventHandler);
+  // newItem.addEventListener("dragleave", dragLeaveEventHandler);
+  // newItem.addEventListener("drop", dropEventHandler);
+  // newItem.addEventListener("dragover", dragOverEventHandler);
 
   shiftBtn.addEventListener("click", moveEventHandler);
   deleteBtn.addEventListener("click", moveEventHandler);
