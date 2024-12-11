@@ -9,6 +9,126 @@
 },
 --------------------------------------------------------------- */
 // ==============================================================
+// Start: Application (Mock) State
+// ==============================================================
+const getNextId = (function () {
+  const min = 1;
+  const max = 1001;
+
+  function getRandomNumber() {
+    return Math.floor(Math.random() * (max - min)) + min; // min (included) and max (excluded)
+  }
+
+  return function () {
+    return (
+      "kldjfdl" +
+      getRandomNumber().toString() +
+      "pgtrjgnsnl" +
+      getRandomNumber().toString()
+    );
+  };
+})();
+
+const shoppingListAppState = [
+  {
+    id: getNextId(),
+    title: "Potato peeler",
+    status: "seek",
+    category: "kitchen",
+    trash: false,
+    createDate: new Date().toISOString().slice(0, 10),
+  },
+  {
+    id: getNextId(),
+    title: "Suger",
+    status: "seek",
+    category: "grocery",
+    trash: false,
+    createDate: new Date().toISOString().slice(0, 10),
+  },
+  {
+    id: getNextId(),
+    title: "Vitamins",
+    status: "seek",
+    category: "health",
+    trash: false,
+    createDate: new Date().toISOString().slice(0, 10),
+  },
+  {
+    id: getNextId(),
+    title: "Coffee maker",
+    status: "mark",
+    category: "electronics",
+    trash: false,
+    createDate: new Date().toISOString().slice(0, 10),
+  },
+  {
+    id: getNextId(),
+    title: "Cutlery set",
+    status: "seek",
+    category: "kitchen",
+    trash: false,
+    createDate: new Date().toISOString().slice(0, 10),
+  },
+  {
+    id: getNextId(),
+    title: "Water bottle",
+    status: "mark",
+    category: "health",
+    trash: true,
+    createDate: new Date().toISOString().slice(0, 10),
+  },
+];
+
+// console.log("ShoppingListsState", shoppingListAppState);
+
+// --------------------------------------------------
+function updateState(id, updates, isNew = false) {
+  let item = {};
+
+  // New Item
+  if (isNew) {
+    id && (item.id = id);
+    item.title = updates?.title ?? "<EMPTY>";
+    item.status = updates?.status ?? "seek";
+    item.category = updates?.category ?? "grocery";
+    item.trash = updates?.trash ?? false;
+    item.createDate = new Date().toISOString().slice(0, 10);
+    shoppingListAppState.push(item);
+    return;
+  }
+
+  // Existing Item
+  item = shoppingListAppState.find((item) => {
+    console.log(item);
+    return item.id === id;
+  });
+
+  item || alert("[MISMATCH] Entry vs. item: Can not update item.");
+
+  updates.title && (item.title = updates.title);
+  updates.status && (item.status = updates.status);
+  updates.category && (item.category = updates.category);
+  updates.trash && (item.trash = updates.trash);
+
+  console.log(item);
+  console.log(shoppingListAppState);
+
+  return;
+}
+
+// --------------------------------------------------
+window.addEventListener(
+  "error",
+  function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.close();
+  },
+  true // capture
+);
+
+// ==============================================================
 // Start: Creating category components
 // ==============================================================
 let bs_bg_postFix = "info";
@@ -82,7 +202,7 @@ document.getElementById("category-components").append(createCategory("health"));
 // ==============================================================
 // Start: Drag and drop of an Item
 // ==============================================================
-let draggedComponent;
+//let draggedComponent;
 
 function dragStartEventHandler(e) {
   console.log("%c[START-DRAG]", "background-color: darkgrey");
@@ -91,7 +211,9 @@ function dragStartEventHandler(e) {
   console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
   console.log("   parentElement", e.currentTarget.parentElement);
 
-  draggedComponent = e.target; // Storing reference of the item,  draggeded item
+  console.log("text/plain", e.target.id);
+  e.dataTransfer.setData("text/plain", e.target.id);
+  //draggedComponent = e.target; // Storing reference of the item,  draggeded item
 }
 
 function dragOverEventHandler(e) {
@@ -114,10 +236,23 @@ function dropEventHandler(e) {
   console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
   console.log("   parentElement", e.currentTarget.parentElement);
 
+  // console.log(e.dataTransfer.getData("text/plain"));
+
+  // Move dragged item, now
+  const draggedComponent = document.getElementById(
+    e.dataTransfer.getData("text/plain")
+  );
+
   draggedComponent &&
     updateItem(draggedComponent, e.currentTarget.id.split("-")[1]);
 
   draggedComponent && e.currentTarget.appendChild(draggedComponent);
+
+  // Update application state
+  updateState(e.dataTransfer.getData("text/plain"), {
+    status: e.currentTarget.id.split("-")[1],
+    category: e.currentTarget.id.split("-")[0],
+  });
 }
 
 function dragEndEventHandler(e) {
@@ -185,16 +320,16 @@ function dragEventHandler(e) {
 
 // --------------------------------------------------
 // Test Items
-renderItem(createItem("Suger", "seek"), "seek");
-renderItem(createItem("Salt", "seek"), "seek");
-renderItem(createItem("Pepper", "seek"), "seek");
-renderItem(createItem("Potato", "mark"), "mark");
-renderItem(createItem("Tomato", "mark"), "mark");
+// renderItem(createItem("Suger", "seek"), "seek");
+// renderItem(createItem("Salt", "seek"), "seek");
+// renderItem(createItem("Pepper", "seek"), "seek");
+// renderItem(createItem("Potato", "mark"), "mark");
+// renderItem(createItem("Tomato", "mark"), "mark");
 
 // ==============================================================
 // Start: Operations on an Item
 // ==============================================================
-function createItem(title, status = "seek") {
+function createItem(title, id, status = "seek") {
   console.log("[createItem]", title, status);
 
   // Create parent node and children nodes
@@ -206,6 +341,7 @@ function createItem(title, status = "seek") {
   // Configure nodes
   newItem.classList = "list-group-item";
   newItem.setAttribute("draggable", true);
+  newItem.setAttribute("id", id);
 
   // -- (1) Listening in CAPTURING Phase of event propagation - { capture: true }
   // -- (2) Target Phase of event propagation
@@ -360,11 +496,23 @@ function addEventHandler(status, e) {
   if (titleNewItem.value == "") return;
 
   // Create and render content
-  const newItem = createItem(titleNewItem.value, status);
+  const newItem = createItem(titleNewItem.value, getNextId(), status);
   renderItem(newItem, status, newComponent.children[1].value);
 
   // Reset form-fields
   titleNewItem.value = "";
+
+  // Update application state
+  updateState(
+    newItem.id,
+    {
+      title: titleNewItem.value,
+      status,
+      category: newComponent.children[1].value,
+      trash: false,
+    },
+    true
+  );
 }
 
 // --------------------------------------------------
@@ -434,12 +582,18 @@ function moveEventHandler(e) {
   }
 
   if (status == "delete") {
-    // // Identify Item to delete
-    // const itemToDelete = e.target.parentElement;
+    // Identify Item to delete
+    const itemToDelete = e.target.parentElement;
     // console.log("itemToDelete", itemToDelete, "--> Type:", typeof itemToDelete);
 
     // Delete item
     e.target.parentElement.remove();
+
+    // Update application state
+    updateState(itemToDelete.id, {
+      trash: true,
+    });
+
     return false;
   }
 
@@ -491,6 +645,11 @@ function moveEventHandler(e) {
     "--> Type:",
     typeof destinationList
   );
+
+  // Update application state
+  updateState(itemToMove.id, {
+    status,
+  });
 
   return true;
 }
@@ -729,3 +888,18 @@ for (let ul of listsOfAllCategories) {
 
 // --------------------------------------------------
 */
+
+// ==============================================================
+// Start: Render initial (mock) state
+// ==============================================================
+window.addEventListener("load", function () {
+  shoppingListAppState.forEach((itemObj) => {
+    // Do not create/render trashed items
+    if (!itemObj || itemObj.trash) return;
+
+    // Create and render remaining items
+    const item =
+      itemObj?.id && createItem(itemObj.title, itemObj.id, itemObj.status);
+    item && renderItem(item, itemObj.status, itemObj.category);
+  });
+});
