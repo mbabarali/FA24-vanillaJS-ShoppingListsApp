@@ -84,10 +84,16 @@ const INIIAL_SHOPPING_LIST = [
 
 // State must be 1) Accessible within all app 2) Singleton
 function AppState(initialState) {
-  const internalState = [...initialState]; // Private but not a singleton state
+  if (this.constructor.prototype.stateInstance) {
+    return this.constructor.prototype.stateInstance; // Presumably, static property
+  }
 
+  this.constructor.prototype.stateInstance = this; // Public and a singleton state
+  console.log("[AppState] this.stateInstance", this.stateInstance);
+
+  const internalState = [...initialState]; // Private state variable
   // this.state = [...internalState]; // Initilization only
-  this.state = function () {
+  this.getState = function () {
     return [...internalState];
   };
 
@@ -112,19 +118,27 @@ function AppState(initialState) {
       return item.id === id;
     });
 
-    item || alert("[MISMATCH] Entry vs. item: Can not update item.");
+    if (item) {
+      updates.title && (item.title = updates.title);
+      updates.status && (item.status = updates.status);
+      updates.category && (item.category = updates.category);
+      updates.trash && (item.trash = updates.trash);
+    } else if (
+      !confirm(
+        "[WARNING-MISMATCH] Can not find 'item Id' in application state. Continue without updating state or cancel/terminate application?"
+      )
+    ) {
+      throw new Error("[ERROR] Can not find 'id' in application state.");
+    }
 
-    updates.title && (item.title = updates.title);
-    updates.status && (item.status = updates.status);
-    updates.category && (item.category = updates.category);
-    updates.trash && (item.trash = updates.trash);
-
-    console.log(item);
-    console.log(internalState);
+    console.log("item", item);
+    console.log("internalState", internalState);
 
     return;
   };
 }
+
+AppState.prototype.stateInstance = null; // Presumably, static property
 
 /*
 const appState = (function (initialState) {
@@ -175,6 +189,16 @@ const appState = (function (initialState) {
 const appState = new AppState(INIIAL_SHOPPING_LIST);
 console.log("state", appState.state);
 
+// // Verifying singleton state
+// appState.updateState(INIIAL_SHOPPING_LIST[0].id, {
+//   trash:
+//     INIIAL_SHOPPING_LIST[0].trash == true
+//       ? (INIIAL_SHOPPING_LIST[0].trash = false)
+//       : (INIIAL_SHOPPING_LIST[0].trash = true),
+// });
+// const appState2 = new AppState(INIIAL_SHOPPING_LIST); // Singleton State
+// console.log("appState2", appState2); // Singleton State
+
 /*
 // --------------------------------------------------
 function updateState(id, updates, isNew = false) {
@@ -219,15 +243,19 @@ window.addEventListener(
     // e.preventDefault();
     e.stopPropagation();
 
+    let countdown = 10;
+
     console.log(`%c${e.message}`, "color: red");
     console.log(
-      `%c[FATAL] Window closing in 3 seconds`,
+      `%c[FATAL] Window closing in ${countdown} seconds`,
       "background-color: red"
     );
 
-    setTimeout(() => {
-      window.close();
-    }, 3000);
+    setInterval(() => {
+      console.log(countdown);
+      if (countdown < 0) window.close();
+      countdown--;
+    }, 1000);
   },
   true // capture
   // false // bubble
@@ -998,7 +1026,7 @@ for (let ul of listsOfAllCategories) {
 // Start: Render initial (mock) state
 // ==============================================================
 window.addEventListener("load", function () {
-  appState.state.forEach((itemObj) => {
+  appState.getState().forEach((itemObj) => {
     // Do not create/render trashed items
     if (!itemObj || itemObj.trash) return;
 
