@@ -19,6 +19,40 @@ function dragStartEventHandler(e) {
   console.log("   parentElement", e.currentTarget.parentElement);
 }
 
+function dragOverEventHandler(e) {
+  console.log("%c[OVER-DRAG]", "background-color: orange");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+
+  // Prevent default to allow drop: The drop event won't fire without preventing default
+  e.preventDefault(); // [****] Enables "currentTarget" to receive drop events
+
+  e.stopPropagation(); // [Optional][STOP-EVENT-BUBBLING] Prevent bubbling of 'dragover' event
+}
+
+function dropEventHandler(e) {
+  console.log("%c[DROP]", "background-color: red");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+}
+
+// --------------------------------------------------
+// Configure drop acceptance on all "UL" elements
+(function configureDropAcceptance() {
+  const dropAcceptingElements = document.getElementsByTagName("UL");
+  for (let dae of dropAcceptingElements) {
+    console.log(dae);
+
+    dae.style = "background-color: black";
+    dae.addEventListener("drop", dropEventHandler);
+    dae.addEventListener("dragover", dragOverEventHandler); // [****]
+  }
+})();
+
 // --------------------------------------------------
 // Test Items
 renderItem(createItem("Suger", "seek"), "seek");
