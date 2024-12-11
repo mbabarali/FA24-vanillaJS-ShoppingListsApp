@@ -351,6 +351,58 @@ deleteBtnAll.forEach((item) => {
 // Start: Event bubbling
 // ==============================================================
 console.log("==============================================");
+// Using IIFE
+(function (perform) {
+  if (!perform) return;
+
+  function clickEventHandler(e) {
+    console.log("%c[LOG-CLICK]", "background-color: tomato");
+    console.log("%ctarget", "font-weight: bold", e.target.nodeName); // e.target
+    console.log("   parentElement", e.target.parentElement.nodeName); // e.target.parentElement
+
+    console.log(
+      "%ccurrentTarget",
+      "font-weight: bold",
+      e.currentTarget.nodeName
+    ); // e.currentTarget
+    console.log("   parentElement", e.currentTarget.parentElement.nodeName); // e.currentTarget.parentElement
+
+    e.stopPropagation(); // Stop propagation thru current listenr on node
+    // e.stopImmediatePropagation(); // Stop propagation thru all other listenrs on same node (having more liseners to event)
+  }
+
+  // --------------------------------------------------
+  const categoryComponents =
+    document.getElementsByClassName("category-component");
+
+  for (let article of categoryComponents) {
+    console.log(article);
+
+    article.addEventListener("click", clickEventHandler, { capture: false }); // false --> execution in event bubbling phase (third phase)
+  }
+
+  // --------------------------------------------------
+  // Test Items
+  renderItem(createItem("Suger", "seek"), "seek");
+  renderItem(createItem("Salt", "seek"), "seek");
+  renderItem(createItem("Pepper", "seek"), "seek");
+  renderItem(createItem("Potato", "mark"), "mark");
+  renderItem(createItem("Tomato", "mark"), "mark");
+
+  // --------------------------------------------------
+  const listsOfAllCategories = document.getElementsByTagName("UL");
+
+  for (let ul of listsOfAllCategories) {
+    console.log(ul);
+
+    ul.style = "background-color: black";
+    ul.addEventListener("click", clickEventHandler, { capture: true }); // true --> execution in event capturing phase (first phase)
+  }
+
+  // --------------------------------------------------
+})(true);
+
+/*
 function clickEventHandler(e) {
   console.log("%c[LOG-CLICK]", "background-color: tomato");
   console.log("%ctarget", "font-weight: bold", e.target.nodeName); // e.target
@@ -392,3 +444,4 @@ for (let ul of listsOfAllCategories) {
 }
 
 // --------------------------------------------------
+*/
