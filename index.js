@@ -43,9 +43,10 @@ function dropEventHandler(e) {
   console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
   console.log("   parentElement", e.currentTarget.parentElement);
 
-  draggedComponent && updateItem(draggedComponent, e.target.id.split("-")[1]);
+  draggedComponent &&
+    updateItem(draggedComponent, e.currentTarget.id.split("-")[1]);
 
-  draggedComponent && e.target.appendChild(draggedComponent);
+  draggedComponent && e.currentTarget.appendChild(draggedComponent);
 }
 
 // --------------------------------------------------
