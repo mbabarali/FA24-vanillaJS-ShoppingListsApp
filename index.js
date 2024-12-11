@@ -9,6 +9,77 @@
 },
 --------------------------------------------------------------- */
 // ==============================================================
+// Start: Creating category components
+// ==============================================================
+let bs_bg_postFix = "info";
+
+// --------------------------------------------------
+function createCategory(category) {
+  console.log("[createCategory]", category);
+
+  // create nodes
+  const categoryComponent = document.createElement("article");
+
+  // configure nodes
+  bs_bg_postFix = bs_bg_postFix == "primary" ? "info" : "primary"; // Bootrstrap postfix
+  categoryComponent.classList = `col-12 text-bg-${bs_bg_postFix}`;
+  categoryComponent.id = `${category}-component`;
+
+  // ----------- OPTION 01 -----------
+  // categoryComponent.innerHTML = `
+  // <h2>${category[0].toUpperCase() + category.slice(1)} List</h2>
+  //   <div class="container">
+  //     <div class="row">
+  //       <ul class="col-6 list-group p-1 mb-1" id="${category}-seek-list">
+  //         <!-- Item to seek list here -->
+  //       </ul>
+  //       <ul class="col-6 list-group p-1 mb-1" id="${category}-mark-list">
+  //         <!-- Item to mark list here -->
+  //       </ul>
+  //     </div>
+  // </div>
+  // `;
+
+  // ----------- OPTION 02 -----------
+  const heading = document.createElement("h2");
+  const container = document.createElement("div");
+  const row = document.createElement("div");
+  const listSeek = document.createElement("ul");
+  const listMark = document.createElement("ul");
+
+  heading.innerHTML = `${category[0].toUpperCase() + category.slice(1)} List`;
+  container.classList = "container";
+  row.classList = "row";
+
+  listSeek.classList = "col-6 list-group p-1 mb-1";
+  listSeek.id = `${category}-seek-list`;
+
+  listMark.classList = "col-6 list-group p-1 mb-1";
+  listMark.id = `${category}-mark-list`;
+
+  // Attach children nodes to parent nodes
+  row.append(listSeek, listMark);
+  container.append(row);
+  categoryComponent.append(heading, container);
+  categoryComponent.append(heading, container);
+
+  // Return componenet
+  return categoryComponent;
+}
+
+// --------------------------------------------------
+document
+  .getElementById("category-components")
+  .append(createCategory("grocery"));
+document
+  .getElementById("category-components")
+  .append(createCategory("electronics"));
+document
+  .getElementById("category-components")
+  .append(createCategory("kitchen"));
+document.getElementById("category-components").append(createCategory("health"));
+
+// ==============================================================
 // Start: Drag and drop of an Item
 // ==============================================================
 let draggedComponent;
