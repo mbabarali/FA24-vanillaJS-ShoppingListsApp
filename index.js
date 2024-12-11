@@ -11,12 +11,16 @@
 // ==============================================================
 // Start: Drag and drop of an Item
 // ==============================================================
+let draggedComponent;
+
 function dragStartEventHandler(e) {
   console.log("%c[START-DRAG]", "background-color: darkgrey");
   console.log("%ctarget", "font-weight: bold", e.target);
   console.log("   parentElement", e.target.parentElement);
   console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
   console.log("   parentElement", e.currentTarget.parentElement);
+
+  draggedComponent = e.target; // Storing reference of the item,  draggeded item
 }
 
 function dragOverEventHandler(e) {
@@ -38,6 +42,10 @@ function dropEventHandler(e) {
   console.log("   parentElement", e.target.parentElement);
   console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
   console.log("   parentElement", e.currentTarget.parentElement);
+
+  draggedComponent && updateItem(draggedComponent, e.target.id.split("-")[1]);
+
+  draggedComponent && e.target.appendChild(draggedComponent);
 }
 
 // --------------------------------------------------
@@ -109,6 +117,18 @@ function renderItem(item, status, category = "grocery") {
 
   // Append content
   document.querySelector(`#${category}-${status}-list`).appendChild(item);
+}
+
+function updateItem(item, status = "seek") {
+  const shiftBtn = item.getElementsByTagName("Button")[0];
+
+  if (status == "mark") {
+    shiftBtn.innerHTML = "&#8634;";
+    shiftBtn.classList = shiftBtn.classList.value.replace("mark", "seek");
+  } else {
+    shiftBtn.innerHTML = "&check;";
+    shiftBtn.classList = shiftBtn.classList.value.replace("seek", "mark");
+  }
 }
 
 // ==============================================================
