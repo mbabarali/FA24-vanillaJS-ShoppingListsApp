@@ -9,6 +9,25 @@
 },
 --------------------------------------------------------------- */
 // ==============================================================
+// Start: Drag and drop of an Item
+// ==============================================================
+function dragStartEventHandler(e) {
+  console.log("%c[START-DRAG]", "background-color: darkgrey");
+  console.log("%ctarget", "font-weight: bold", e.target);
+  console.log("   parentElement", e.target.parentElement);
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget);
+  console.log("   parentElement", e.currentTarget.parentElement);
+}
+
+// --------------------------------------------------
+// Test Items
+renderItem(createItem("Suger", "seek"), "seek");
+renderItem(createItem("Salt", "seek"), "seek");
+renderItem(createItem("Pepper", "seek"), "seek");
+renderItem(createItem("Potato", "mark"), "mark");
+renderItem(createItem("Tomato", "mark"), "mark");
+
+// ==============================================================
 // Start: Operations on an Item
 // ==============================================================
 function createItem(title, status = "seek") {
@@ -22,6 +41,9 @@ function createItem(title, status = "seek") {
 
   // Configure nodes
   newItem.classList = "list-group-item";
+  newItem.setAttribute("draggable", true);
+  newItem.addEventListener("dragstart", dragStartEventHandler);
+
   shiftBtn.addEventListener("click", moveEventHandler);
   deleteBtn.addEventListener("click", moveEventHandler);
   if (status == "mark") {
@@ -400,7 +422,7 @@ console.log("==============================================");
   }
 
   // --------------------------------------------------
-})(true);
+})(false);
 
 /*
 function clickEventHandler(e) {
