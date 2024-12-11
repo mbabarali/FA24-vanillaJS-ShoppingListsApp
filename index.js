@@ -56,6 +56,28 @@ const buttonsNewItem = newComponent.getElementsByTagName("button");
 // console.log("titleNewItem", titleNewItem);
 // console.log("buttonsNewItem", buttonsNewItem);
 // --------------------------------------------------
+function addEventHandler(status, e) {
+  console.log("[NEW-ITEM-" + status.toUpperCase() + "]");
+  console.log("target", e.target);
+  console.log("parentElement", e.target.parentElement);
+
+  // Validate content
+  if (titleNewItem.value == "") return;
+
+  // Create and render content
+  const newItem = createItem(titleNewItem.value, status);
+  renderItem(newItem, status);
+
+  // Reset form-fields
+  titleNewItem.value = "";
+}
+
+// --------------------------------------------------
+buttonsNewItem[0].addEventListener("click", addEventHandler.bind(null, "seek"));
+buttonsNewItem[1].addEventListener("click", addEventHandler.bind(null, "mark"));
+
+/*
+// --------------------------------------------------
 function addToSeekEventHandler(e) {
   console.log("[NEW-ITEM-SEEK]");
   console.log("target", e.target);
@@ -92,6 +114,7 @@ function addToMarkEventHandler(e) {
 // --------------------------------------------------
 buttonsNewItem[0].addEventListener("click", addToSeekEventHandler);
 buttonsNewItem[1].addEventListener("click", addToMarkEventHandler);
+*/
 
 // ==============================================================
 // Start: Register Event Handlers on Buttons in Items
