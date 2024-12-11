@@ -271,6 +271,75 @@ function updateItem(item, status = "seek") {
 }
 
 // ==============================================================
+// Start: Creating new (input) components
+// ==============================================================
+// --------------------------------------------------
+function createInputComponent() {
+  console.log("[createInputComponent]");
+
+  // create nodes
+  const newInputComponent = document.createElement("article");
+
+  // configure nodes
+  newInputComponent.classList = "col-12 d-flex";
+  newInputComponent.id = "new-component";
+
+  // ----------- OPTION 01 -----------
+  // newInputComponent.innerHTML = `
+  // <input class="mx-1 my-4 w-75" type="text" />
+  //   <select class="w-25 mx-1 my-4 newitem-category" name="category" id="">
+  //     <option value="grocery" selected>Grocery</option>
+  //     <option value="electronics">Electronics</option>
+  //     <option value="kitchen">Kitchen and Crockery</option>
+  //     <option value="health">Health and Personal Care</option>
+  //     </select>
+  //     <button class="mx-1 my-4 w-25">&plus;</button>
+  //     <button class="mx-1 my-4 w-25">&check;</button>
+  //     `;
+
+  // ----------- OPTION 02 -----------
+  const input = document.createElement("input");
+  const selection = document.createElement("select");
+  const option1 = document.createElement("option");
+  const option2 = document.createElement("option");
+  const option3 = document.createElement("option");
+  const option4 = document.createElement("option");
+  const buttonSeek = document.createElement("button");
+  const buttonMark = document.createElement("button");
+
+  input.type = "text";
+
+  input.classList = "mx-1 my-4 w-75";
+  selection.classList = "w-25 mx-1 my-4 newitem-category";
+
+  option1.value = "grocery";
+  option2.value = "electronics";
+  option3.value = "kitchen";
+  option4.value = "health";
+
+  option1.innerHTML = "Grocery";
+  option2.innerHTML = "Electronics";
+  option3.innerHTML = "Kitchen and Crockery";
+  option4.innerHTML = "Health and Personal Care";
+
+  buttonSeek.classList = "mx-1 my-4 w-25";
+  buttonMark.classList = "mx-1 my-4 w-25";
+
+  buttonSeek.innerHTML = "&plus;";
+  buttonMark.innerHTML = "&check;";
+
+  // Attach children nodes to parent nodes
+  selection.append(option1, option2, option3, option4);
+  newInputComponent.append(input, selection, buttonSeek, buttonMark);
+
+  // Return component
+  return newInputComponent;
+}
+
+// --------------------------------------------------
+document.getElementById("new-components").append(createInputComponent());
+
+// ==============================================================
 // Start: Register Event Handlers to Get New Item from User
 // ==============================================================
 console.log("==============================================");
