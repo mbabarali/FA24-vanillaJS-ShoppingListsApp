@@ -356,8 +356,8 @@ function clickEventHandler(e) {
   console.log("%ctarget", "font-weight: bold", e.target.nodeName); // e.target
   console.log("   parentElement", e.target.parentElement.nodeName); // e.target.parentElement
 
-  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget.nodeName); // [Discussion Part-2]: What if click handler is also registered?
-  console.log("   parentElement", e.currentTarget.parentElement.nodeName); // [Discussion Part-2]: What if click handler is also registered?
+  console.log("%ccurrentTarget", "font-weight: bold", e.currentTarget.nodeName); // e.currentTarget
+  console.log("   parentElement", e.currentTarget.parentElement.nodeName); // e.currentTarget.parentElement
 }
 
 // --------------------------------------------------
@@ -367,7 +367,7 @@ const categoryComponents =
 for (let article of categoryComponents) {
   console.log(article);
 
-  article.addEventListener("click", clickEventHandler, { capture: true });
+  article.addEventListener("click", clickEventHandler, { capture: false }); // false --> execution in event bubbling phase (third phase)
 }
 
 // --------------------------------------------------
@@ -384,8 +384,8 @@ const listsOfAllCategories = document.getElementsByTagName("UL");
 for (let ul of listsOfAllCategories) {
   console.log(ul);
 
-  ul.style = "background-color: black"; // [Discussion Part-1] Impact if the following handler is NOT registered?
-  ul.addEventListener("click", clickEventHandler, { capture: true }); // [Discussion Part-2]: What if click handler is also registered?
+  ul.style = "background-color: black";
+  ul.addEventListener("click", clickEventHandler, { capture: true }); // true --> execution in event capturing phase (first phase)
 }
 
 // --------------------------------------------------
